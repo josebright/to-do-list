@@ -1,0 +1,12 @@
+.navbar-spacer {
+    flex: 1 1 auto;
+  }
+
+.navbar-margin {
+  margin-left: 10px;
+}
+
+.example-button-row a {
+  margin-right: 10px;
+  color: white;
+}
