@@ -1,0 +1,13 @@
+.left-side-nav {
+    background: rgb(224, 223, 223);
+    min-width: 8em;
+    width: 20%;
+}
+
+.right-side-nav {
+    width: 80%;
+}
+
+.example-container {
+    height: 100%;
+  }
