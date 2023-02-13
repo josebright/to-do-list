@@ -11,9 +11,9 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements AfterViewInit {
-  displayedColumns: string[] = ['created', 'state', 'number', 'title'];
+  displayedColumns: string[] = ['id', 'created', 'list', 'status'];
   exampleDatabase!: ExampleHttpDatabase | null;
-  data: GithubIssue[] = [];
+  data: ListItem[] = [];
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -62,11 +62,11 @@ export class TodoComponent implements AfterViewInit {
 }
 
 export interface GithubApi {
-  items: GithubIssue[];
+  items: ListItem[];
   total_count: number;
 }
 
-export interface GithubIssue {
+export interface ListItem {
   created_at: string;
   number: string;
   state: string;
