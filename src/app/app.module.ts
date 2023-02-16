@@ -16,6 +16,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
+// ngrx related imports
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './app-state';
+import { UserEffects, TodoEffects } from './app-state/effects';
+import { EffectsModule } from '@ngrx/effects';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +40,10 @@ import { HttpClientModule } from '@angular/common/http';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     HttpClientModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    EffectsModule.forRoot([UserEffects, TodoEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
