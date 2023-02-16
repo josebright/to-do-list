@@ -8,7 +8,6 @@ export enum ToDoActionType {
 
 export class AddItemAction implements Action {
   readonly type = ToDoActionType.ADD_ITEM;
-  //add an optional payload
   constructor(public payload: ListItem) {}
 }
 

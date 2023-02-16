@@ -1,4 +1,4 @@
-export interface CourseItem {
+export class Task {
     id: string;
     item: string;
     hasClickedTranslate: boolean;
