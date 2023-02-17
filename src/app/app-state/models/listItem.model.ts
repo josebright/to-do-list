@@ -1,4 +1,4 @@
-export class Task {
+export interface Task {
     id: string;
     item: string;
     hasClickedTranslate: boolean;

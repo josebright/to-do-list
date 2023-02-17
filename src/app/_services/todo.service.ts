@@ -8,9 +8,11 @@ export class TodoService {
 
   constructor(private http: HttpClient) { }
 
-  rootURL = 'http://localhost:3000/api/to-do';
+  // rootURL = 'http://localhost:3000/api/to-do';
 
-  getTasks() {
+  rootURL = '/api';
+
+  findUserList() {
     return this.http.get(this.rootURL + '/tasks');
   }
 
@@ -18,11 +20,11 @@ export class TodoService {
     return this.http.post(this.rootURL + '/task', {task});
   }
 
-  editTask(task: any) {
+  updateList(task: any) {
     return this.http.put(this.rootURL + '/task', {task});
   }
 
-  deleteTask(taskId: any) {
+  deleteList(taskId: any) {
     console.log('deleting task:::', taskId);
     return this.http.delete(`${this.rootURL}/task/${taskId}`);
   }
