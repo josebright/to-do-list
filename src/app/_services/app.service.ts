@@ -9,8 +9,11 @@ import { map, catchError } from 'rxjs/operators';
 export class AppService {
 
   private userLoggedIn = new Subject<boolean>();
-  loginUrl = 'http://localhost:3000/api/login';
-  signupUrl = 'http://localhost:3000/api/signup';
+  // loginUrl = 'http://localhost:3000/api/auth/signin';
+  // signupUrl = 'http://localhost:3000/api/auth/signup';
+
+  loginUrl = '/api/login';
+  signupUrl = '/api/signup';
 
   constructor(private http: HttpClient) {
     this.userLoggedIn.next(false);
@@ -24,7 +27,7 @@ export class AppService {
     return this.userLoggedIn.asObservable();
   }
 
-  login(user: any) {
+  signin(user: any) {
     const headers = new HttpHeaders({'Content-Type' : 'application/json'});
     const options = {headers};
     return this.http.post(this.loginUrl,  {user}, options).pipe(

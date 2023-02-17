@@ -13,49 +13,49 @@ export class TodoEffects {
     private todoService: TodoService
   ) {}
 
-  getTasks$ = createEffect(() =>
+  findUserList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(todoActions.getTasks),
+      ofType(todoActions.findUserList),
       exhaustMap(action =>
-        this.todoService.getTasks().pipe(
+        this.todoService.findUserList().pipe(
           map(response => {
             console.log("response:::", response)
-            return todoActions.getTasksSuccess({response})
+            return todoActions.findUserListSuccess({response})
           }),
-          catchError((error: any) => of(todoActions.getTasksFailure(error))))
+          catchError((error: any) => of(todoActions.findUserListFailure(error))))
       )
     )
   );
 
-  createTask$ = createEffect(() =>
+  createList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(todoActions.createTask),
+      ofType(todoActions.createList),
       exhaustMap(action =>
         this.todoService.addTask(action.task).pipe(
-          map(response => todoActions.createTaskSuccess(response)),
-          catchError((error: any) => of(todoActions.createTaskFailure(error))))
+          map(response => todoActions.createListSuccess(response)),
+          catchError((error: any) => of(todoActions.createListFailure(error))))
       )
     )
   );
 
 
-  deleteTask$ = createEffect(() =>
+  deleteList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(todoActions.deleteTask),
-      exhaustMap(action => this.todoService.deleteTask(action.taskid).pipe(
-          map(response => todoActions.deleteTaskSuccess(response)),
-          catchError((error: any) => of(todoActions.deleteTaskFailure(error))))
+      ofType(todoActions.deleteList),
+      exhaustMap(action => this.todoService.deleteList(action.taskid).pipe(
+          map(response => todoActions.deleteListSuccess(response)),
+          catchError((error: any) => of(todoActions.deleteListFailure(error))))
       )
     )
   );
 
-  editTask$ = createEffect(() =>
+  updateList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(todoActions.editTask),
+      ofType(todoActions.updateList),
       exhaustMap(action =>
-        this.todoService.editTask(action.task).pipe(
-          map(response => todoActions.editTaskSuccess(response)),
-          catchError((error: any) => of(todoActions.editTaskFailure(error))))
+        this.todoService.updateList(action.task).pipe(
+          map(response => todoActions.updateListSuccess(response)),
+          catchError((error: any) => of(todoActions.updateListFailure(error))))
       )
     )
   );

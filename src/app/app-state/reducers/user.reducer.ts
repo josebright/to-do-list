@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { User } from '../entity';
+import { User } from '../models';
 import * as userActions from '../actions';
 import * as storage from '../state/storage';
 

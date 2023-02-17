@@ -15,18 +15,26 @@ import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // ngrx related imports
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './app-state';
-import { UserEffects, TodoEffects } from './app-state/effects';
+// import { reducers, metaReducers } from './app-state';
+// import { UserEffects, TodoEffects } from './app-state/effects';
 import { EffectsModule } from '@ngrx/effects';
+import { SignupComponent } from './signup/signup.component';
+import { SigninComponent } from './signin/signin.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     TodoComponent,
+    SignupComponent,
+    SigninComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,10 +48,13 @@ import { EffectsModule } from '@ngrx/effects';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    }),
-    EffectsModule.forRoot([UserEffects, TodoEffects]),
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // StoreModule.forRoot(reducers, {
+    //   metaReducers
+    // }),
+    // EffectsModule.forRoot([UserEffects, TodoEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

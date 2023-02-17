@@ -18,61 +18,61 @@ export const EDIT_TASK_SUCCESS = '[Task] Edit Task Success';
 export const EDIT_TASK_FAILURE = '[Task] Edit Task Failure';
 
 
-export const getTasks = createAction(
+export const findUserList = createAction(
   GET_TASKS
 );
 
-export const getTasksSuccess = createAction(
+export const findUserListSuccess = createAction(
   GET_TASKS_SUCCESS,
   props<any>()
 );
 
-export const getTasksFailure = createAction(
+export const findUserListFailure = createAction(
   GET_TASKS_FAILURE,
   props<{any}>()
 );
 
-export const createTask = createAction(
+export const createList = createAction(
   CREATE_TASK,
   props<{task: any}>()
 );
 
-export const createTaskSuccess = createAction(
+export const createListSuccess = createAction(
   CREATE_TASK_SUCCESS,
   props<any>()
 );
 
-export const createTaskFailure = createAction(
+export const createListFailure = createAction(
   CREATE_TASK_FAILURE,
   props<{any}>()
 );
 
-export const deleteTask = createAction(
+export const deleteList = createAction(
   DELETE_TASK,
   props<{taskid}>()
 );
 
-export const deleteTaskSuccess = createAction(
+export const deleteListSuccess = createAction(
   DELETE_TASK_SUCCESS,
   props<any>()
 );
 
-export const deleteTaskFailure = createAction(
+export const deleteListFailure = createAction(
   DELETE_TASK_FAILURE,
   props<{any}>()
 );
 
-export const editTask = createAction(
+export const updateList = createAction(
   EDIT_TASK,
   props<{task: any}>()
 );
 
-export const editTaskSuccess = createAction(
+export const updateListSuccess = createAction(
   EDIT_TASK_SUCCESS,
   props<any>()
 );
 
-export const editTaskFailure = createAction(
+export const updateListFailure = createAction(
   EDIT_TASK_FAILURE,
   props<{any}>()
 );
