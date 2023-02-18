@@ -1,21 +1,21 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { User } from '../models';
 
 export const USER_LOGIN = '[Login Page] Login';
 export const USER_LOGIN_SUCCESS = '[Login Page] Login Success';
 export const USER_LOGIN_FAILURE = '[Login Page] Login Failure';
 
-export class login implements Action {
-  readonly type = USER_LOGIN
-  constructor(public payload: User) {}
-}
+export const login = createAction(
+  USER_LOGIN,
+  props<{user: User}>()
+);
 
-export class loginSuccess implements Action {
-  readonly type = USER_LOGIN_SUCCESS
-  constructor(public payload: any) {}
-}
+export const loginSuccess = createAction(
+  USER_LOGIN_SUCCESS,
+  props<any>()
+)
 
-export class loginFailure implements Action {
-  readonly type = USER_LOGIN_FAILURE
-  constructor(public payload: string) {}
-}
+export const loginFailure = createAction(
+  USER_LOGIN_FAILURE,
+  props<{error: string}>()
+)
