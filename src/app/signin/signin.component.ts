@@ -12,10 +12,7 @@ import * as userActions from '../app-state/actions'
 })
 
 export class SigninComponent implements OnInit {
-  user: User = {
-    email: '',
-    password: ''
-  };
+  user: User = new User();
 
   constructor(
     private router: Router,

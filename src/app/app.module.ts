@@ -30,6 +30,7 @@ import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { AdminComponent } from './admin/admin.component';
 import { authReducer } from './app-state/reducers/user.reducer';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { authReducer } from './app-state/reducers/user.reducer';
     MatIconModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
