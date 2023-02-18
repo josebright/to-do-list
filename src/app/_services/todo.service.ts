@@ -8,9 +8,9 @@ export class TodoService {
 
   constructor(private http: HttpClient) { }
 
-  // rootURL = 'http://localhost:3000/api/to-do';
+  rootURL = 'http://localhost:3000/api/to-do';
 
-  rootURL = '/api';
+  // rootURL = '/api';
 
   findUserList() {
     return this.http.get(this.rootURL + '/tasks');

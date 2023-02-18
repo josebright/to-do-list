@@ -1,57 +1,47 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '../models';
 import * as userActions from '../actions';
-import * as storage from '../state/storage';
 
 export interface State {
-  user: User;
-  result: any;
-  isLoading: boolean;
-  isLoadingSuccess: boolean;
-  isLoadingFailure: boolean;
+  user: User | null;
+  token: string | null;
+  loginError?: string;
 }
 
 export const initialState: State = {
-  user: storage.getItem('user').user,
-  result: '',
-  isLoading: false,
-  isLoadingSuccess: false,
-  isLoadingFailure: false
+  user: null,
+  token: null,
 };
 
 const loginReducer = createReducer(
   initialState,
-  on(userActions.login, (state, {user}) => ({user, isLoading: true})),
-  on(userActions.loginSuccess, (state, result) => ({user: result.user, result, isLoading: false, isLoadingSuccess: true})),
-  on(userActions.signup, (state, {user}) => ({user, isLoading: true})),
-  on(userActions.signupSuccess, (state, result) => ({user: state.user, result, isLoading: false, isLoadingSuccess: true}))
+  on(userActions.login, (state, {user}) => ({...state, user})),
+  on(userActions.loginSuccess, (state, loginSuccessResponse) => ({...state, user: loginSuccessResponse.user, token: loginSuccessResponse.token})),
+  on(userActions.loginFailure, (state, { error }) => ({...state, loginError: error, token: null, user: null})),
+  on(userActions.signup, (state, {user}) => ({...state, user})),
+  on(userActions.signupSuccess, (state, result) => ({...state, user: state.user, result}))
 );
 
-export function reducer(state: State | undefined, action: Action): any {
+export function authReducer(state: State | undefined, action: Action): any {
   return loginReducer(state, action);
 }
 
 export const getLoggedInUser = (state: State) => {
   return {
     user: state.user,
-    isLoadingSuccess: state.isLoadingSuccess
   }
 };
 
 export const userLogin = (state: State) => {
   return {
     user: state.user,
-    result: state.result,
-    isLoading: state.isLoading,
-    isLoadingSuccess: state.isLoadingSuccess
+    result: state.token,
   }
 };
 
 export const userSignup = (state: State) => {
   return {
     user: state.user,
-    result: state.result,
-    isLoading: state.isLoading,
-    isLoadingSuccess: state.isLoadingSuccess
+    result: state.loginError
   }
 };
