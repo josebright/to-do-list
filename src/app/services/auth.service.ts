@@ -13,10 +13,6 @@ export class AuthService {
     private http: HttpClient,
   ) {}
 
-  // getToken(): string {
-  //   return localStorage.getItem('token');
-  // }
-
   logIn(email: string, password: string): Observable<any> {
     const headers = new HttpHeaders({'Content-Type' : 'application/json'});
     const options = {headers};

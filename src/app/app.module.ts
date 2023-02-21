@@ -34,6 +34,7 @@ import { MatInputModule } from '@angular/material/input';
 // ngrx related imports
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { EffectsModule } from '@ngrx/effects';
     SignupComponent,
     SigninComponent,
     AdminComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
