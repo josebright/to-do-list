@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: 'login', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'todo', component: TodoComponent, 
-    canActivate: [AuthGuard], // visit todo only if authenticated
+    canActivate: [AuthGuard] // visit todo only if authenticated
   },
-  { path: '', pathMatch: 'full', redirectTo: 'todo' }, // redirect to 'todo'
+  { path: '', pathMatch: 'full', redirectTo: '/login' }, // redirect to 'login'
   { path: '**', component: PageNotFoundComponent } // Wildcard route for a 404 page
 ];
 

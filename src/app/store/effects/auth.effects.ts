@@ -1,9 +1,10 @@
-import { User } from './../models/user.model';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, tap } from 'rxjs';
 import { map, exhaustMap, catchError } from 'rxjs/operators';
+
+import { User } from './../models/user.model';
 import { AuthService } from '../../services';
 import * as authActions from '../actions';
 
@@ -37,7 +38,7 @@ export class AuthEffects {
             ofType(authActions.LogInSuccess),
             tap(user => {
                 localStorage.setItem('token', user.token);
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('todo');
             })
         ),
         { dispatch: false }
@@ -71,7 +72,7 @@ export class AuthEffects {
             ofType(authActions.SignUpSuccess),
             tap(user => {
                 localStorage.setItem('token', user.token);
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('todo');
             })
         ),
         { dispatch: false }

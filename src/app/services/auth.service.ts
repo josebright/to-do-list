@@ -1,8 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../store/models';
 import { map, catchError } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
+
+import { User } from '../store/models';
 
 
 @Injectable()
@@ -11,6 +14,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
+    private _jwt: JwtHelperService,
+    private router: Router
   ) {}
 
   logIn(email: string, password: string): Observable<any> {
@@ -25,6 +30,24 @@ export class AuthService {
         return err;
       })
     );
+  }
+
+  isLoggedIn(): boolean {
+    const token: string = localStorage.getItem('token') || 'null'
+
+    if (
+      token !== null &&
+      token !== undefined &&
+      !this._jwt.isTokenExpired(token)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  logOut(): void {
+    localStorage.clear();
+    this.router.navigateByUrl('login');
   }
 
   signUp(email: string, password: string): Observable<any> {

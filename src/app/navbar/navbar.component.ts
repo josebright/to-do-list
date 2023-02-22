@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { AppState, selectAuthState } from '../store/app.states';
-import { LogOut } from '../store/actions';
+import { AppState } from '../store/app.states';
+import { AuthService } from '../services';
 
 @Component({
   selector: 'app-navbar',
@@ -11,27 +11,21 @@ import { LogOut } from '../store/actions';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  getState: Observable<any>;
-  isAuthenticated!: false;
-  user = null;
-  errorMessage = null;
-
   constructor(
-    private store: Store<AppState>
-  ) {
-    this.getState = this.store.select(selectAuthState);
-  }
+    private store: Store<AppState>,
+    private auth: AuthService,
+    private _jwt: JwtHelperService,
+  ) {}
 
-  ngOnInit() {
-      this.getState.subscribe((state) => {
-      this.isAuthenticated = state.isAuthenticated;
-      this.user = state.user;
-      this.errorMessage = state.errorMessage;
-    });
+  ngOnInit() {}
+
+  
+  isAuthenticated():boolean {
+    const token = localStorage.getItem('token');
+    return token ? true : false;
   }
 
   logOut(): void {
-    this.store.dispatch(LogOut());
-    console.log(this.isAuthenticated)
+    this.auth.logOut()
   }
 }
