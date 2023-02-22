@@ -1,34 +1,32 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 
 import * as authActions from "../actions";
-import { User } from "../models";
+import { State } from '../app.states';
 
-export interface State {
-    // is a user authenticated?
-    isAuthenticated: boolean;
-    // if authenticated, there should be a user object
-    user: User | null;
-    // error message
-    errorMessage: string | null;
-}
+
+
 
 export const initialState: State = {
     isAuthenticated: false,
     user: null,
-    errorMessage: null
+    message: null,
 };
 
-const reducer = createReducer(
+export const authReducer = createReducer(
     initialState,
-    on(authActions.LogIn, (state, action) => ({...state, email: action.email, password: action.password})),
-    on(authActions.LogInSuccess, (state, action) => ({...state, user: {token: action.token, email: action.email}, isAuthenticated: true})),
-    on(authActions.LogInFailure, (state, { error }) => ({...state, errorMessage: error, token: null, user: null, isAuthenticated: false})),
-    on(authActions.SignUp, (state, action) => ({...state, email: action.email, password: action.password})),
-    on(authActions.SignUpSuccess, (state, action) => ({...state, user: {token: action.token, email: action.email}, isAuthenticated: true, errorMessage: null})),
-    on(authActions.SignUpFailure, (state, { error }) => ({...state, errorMessage: error})),
-    on(authActions.LogOut, (state) => ({...state, token: null, user: null})),
+    on(authActions.LogIn, 
+        (state, action) => ({...state, user: {email: action.email}})),
+    on(authActions.LogInSuccess, 
+        (state, action) => ({...state, user: {token: action.token, email: action.email}, 
+            message: action.message, isAuthenticated: true})),
+    on(authActions.LogInFailure, 
+        (state, action) => ({...state, message: action.error})),
+    on(authActions.SignUp, 
+        (state, action) => ({...state, user: {email: action.email}})),
+    on(authActions.SignUpSuccess, 
+        (state, action) => ({...state, user: {email: action.email}, message: action.message})),
+    on(authActions.SignUpFailure, 
+        (state, action) => ({...state, message: action.error})),
+    on(authActions.LogOut, 
+        (state) => ({...state, user: null, isAuthenticated: false})),
 );
-
-export function authReducer(state: State | undefined, action: Action): State {
-    return reducer(state, action);
-}

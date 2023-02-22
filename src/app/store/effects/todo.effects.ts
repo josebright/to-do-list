@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, exhaustMap, catchError } from 'rxjs/operators';
 
-import { TodoService } from '../../services';
+import { TodoService } from 'src/app/services/todo.service';
 import * as todoActions from '../actions';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class TodoEffects {
       exhaustMap(action =>
         this.todoService.findUserList().pipe(
           map(response => {
-            console.log("response:::", response)
+            // console.log("response:::", response)
             return todoActions.findUserListSuccess({response})
           }),
           catchError((error: any) => of(todoActions.findUserListFailure(error))))
