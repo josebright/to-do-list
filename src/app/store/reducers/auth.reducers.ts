@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import * as authActions from "../actions";
 import { User } from "../models";
 
@@ -25,6 +26,7 @@ const reducer = createReducer(
     on(authActions.SignUp, (state, action) => ({...state, email: action.email, password: action.password})),
     on(authActions.SignUpSuccess, (state, action) => ({...state, user: {token: action.token, email: action.email}, isAuthenticated: true, errorMessage: null})),
     on(authActions.SignUpFailure, (state, { error }) => ({...state, errorMessage: error})),
+    on(authActions.LogOut, (state) => ({...state, token: null, user: null})),
 );
 
 export function authReducer(state: State | undefined, action: Action): State {

@@ -1,7 +1,9 @@
-import { User } from '../../store/models';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/app.states';
+
+import { User } from '../../store/models';
+import { AppState, selectAuthState  } from '../../store/app.states';
 import { LogIn } from '../../store/actions';
 
 @Component({
@@ -12,12 +14,20 @@ import { LogIn } from '../../store/actions';
 
 export class SigninComponent implements OnInit {
   user: User = new User();
+  getState: Observable<any>;
+  errorMessage!: string | null;
 
   constructor(
     private store: Store<AppState>
-  ) {}
+  ) {
+    this.getState = this.store.select(selectAuthState)
+  }
 
-  ngOnInit() {};
+  ngOnInit() {
+    this.getState.subscribe((state) => {
+      this.errorMessage = state.errorMessage;
+    });
+  }
 
   onSubmit(): void {
     const payload = {

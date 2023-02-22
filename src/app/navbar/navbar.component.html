@@ -1,10 +1,21 @@
 <mat-toolbar color="primary">
-    <a routerLink="/" class="navbar-margin">To Do List App</a>
+    <div class="navbar-margin">
+        <a routerLink="/todo">ToDo List App</a>
+    </div>
     <span class="navbar-spacer"></span>
 
-    <button class="example-button-row">
-        <a mat-raised-button routerLink="/login">Login</a>
-        <a mat-raised-button routerLink="/signup">Signup</a>
-    </button>
-    
+    <div *ngIf="isAuthenticated(); then doSomething; else doSomethingElse;"></div>
+        <ng-template #doSomething>
+            <div class="example-button-row">
+                <a mat-raised-button class="cursor-pointer" (click)="logOut()">Logout</a>
+            </div>
+        </ng-template>
+        <ng-template #doSomethingElse>
+            <div class="example-button-row">
+                <a mat-raised-button routerLink="/login">Login</a>
+            </div>
+            <div class="example-button-row">
+                    <a mat-raised-button routerLink="/signup">Signup</a>
+            </div>
+        </ng-template>
 </mat-toolbar>

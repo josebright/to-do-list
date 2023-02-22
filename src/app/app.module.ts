@@ -34,6 +34,8 @@ import { MatInputModule } from '@angular/material/input';
 // ngrx related imports
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { EffectsModule } from '@ngrx/effects';
     SignupComponent,
     SigninComponent,
     AdminComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,9 @@ import { EffectsModule } from '@ngrx/effects';
       AuthEffects, 
       // TodoEffects
     ]),
+    JwtModule.forRoot({
+      config: {},
+    }),
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
