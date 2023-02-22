@@ -1,0 +1,14 @@
+.navbar-spacer {
+    flex: 1 1 auto;
+  }
+
+.navbar-margin {
+  margin: 0 5vw;
+  border: 0;
+}
+
+.example-button-row a {
+  margin: 0 2vw;
+  border: 0;
+  color: white;
+}
