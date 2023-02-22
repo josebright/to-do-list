@@ -1,14 +1,17 @@
-import { createFeatureSelector } from '@ngrx/store';
 
-import * as auth from './reducers/auth.reducers';
+import { User } from './models/user.model';
+import { authReducer} from './reducers/auth.reducers';
 
-
-export interface AppState {
-  authState: auth.State;
+export interface State {
+  // is a user authenticated?
+  isAuthenticated: boolean;
+  // if authenticated, there should be a user object
+  user: User | null;
+  // error message or success message
+  message: string | null;
 }
 
-export const reducers = {
-  auth: auth.authReducer
-};
 
-export const selectAuthState = createFeatureSelector<AppState>('auth');
+export const reducers = {
+  auth: authReducer
+};

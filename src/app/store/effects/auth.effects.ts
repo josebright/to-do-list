@@ -24,10 +24,9 @@ export class AuthEffects {
                 this.authService
                 .logIn(action.email, action.password)
                 .pipe(
-                    map((user: User) => 
-                        authActions.LogInSuccess({email: action.email, token: user.token!})),
-                    catchError(error => 
-                        of(authActions.LogInFailure({ error: error })))
+                    map((user: User) => authActions.LogInSuccess({email: action.email, token: user.token!, message: user.message!})),   
+                    catchError(error => of(authActions.LogInFailure({ error: error.error.message })))
+                        
                 )
             )
         )
@@ -59,20 +58,20 @@ export class AuthEffects {
                 .signUp(action.email, action.password)
                 .pipe(
                     map((user: User) => 
-                        authActions.SignUpSuccess({email: action.email, token: user.token!})),
+                        authActions.SignUpSuccess({email: action.email, message: user.message!})),
                     catchError(error => 
-                        of(authActions.SignUpFailure({ error: error })))
+                        of(authActions.SignUpFailure({ error: error.error.message })))
                 )
             )
-        )
+        ),
+        { dispatch: false }
     );
 
     SignUpSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.SignUpSuccess),
-            tap(user => {
-                localStorage.setItem('token', user.token);
-                this.router.navigateByUrl('todo');
+            tap(() => {
+                this.router.navigateByUrl('login');
             })
         ),
         { dispatch: false }
@@ -88,8 +87,9 @@ export class AuthEffects {
     LogOut$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.LogOut),
-            tap(user => {
+            tap(() => {
                 localStorage.removeItem('token');
+                this.router.navigateByUrl('login');
             })
         ),
         { dispatch: false }

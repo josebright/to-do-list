@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SigninComponent } from './auth/signin/signin.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { TodoComponent } from './todo/todo.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthGuard } from './auth/guard/auth.guard';
+import { SigninComponent } from './pages/auth/signin/signin.component';
+import { SignupComponent } from './pages/auth/signup/signup.component';
+import { TodoComponent } from './pages/todo/todo.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { AuthGuard } from './pages/auth/guard/auth.guard';
 
 
 const routes: Routes = [

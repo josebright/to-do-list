@@ -1,11 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-
-import { User } from '../store/models';
 
 
 @Injectable()
@@ -18,23 +15,22 @@ export class AuthService {
     private router: Router
   ) {}
 
+  signUp(email: string, password: string): Observable<any> {
+    const headers = new HttpHeaders({'Content-Type' : 'application/json'});
+    const options = {headers};
+    const url = `${this.BASE_URL}/auth/signup`;
+    return this.http.post(url,  {email, password}, options);
+  }
+
   logIn(email: string, password: string): Observable<any> {
     const headers = new HttpHeaders({'Content-Type' : 'application/json'});
     const options = {headers};
     const url = `${this.BASE_URL}/auth/signin`;
-    return this.http.post(url, {email, password}, options).pipe(
-      map((payload: User) => {
-        return payload;
-       }),
-      catchError(err => {
-        return err;
-      })
-    );
+    return this.http.post(url, {email, password}, options);
   }
 
   isLoggedIn(): boolean {
     const token: string = localStorage.getItem('token') || 'null'
-
     if (
       token !== null &&
       token !== undefined &&
@@ -45,22 +41,7 @@ export class AuthService {
     return false;
   }
 
-  logOut(): void {
-    localStorage.clear();
-    this.router.navigateByUrl('login');
-  }
-
-  signUp(email: string, password: string): Observable<any> {
-    const headers = new HttpHeaders({'Content-Type' : 'application/json'});
-    const options = {headers};
-    const url = `${this.BASE_URL}/auth/signup`;
-    return this.http.post(url,  {email, password}, options).pipe(
-      map((payload: User) => {
-        return payload;
-       }),
-      catchError(err => {
-        return err;
-      })
-   );
+  getToken(): string {
+    return localStorage.getItem('token') || 'null'
   }
 }
