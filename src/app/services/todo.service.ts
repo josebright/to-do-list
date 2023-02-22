@@ -25,7 +25,7 @@ export class TodoService {
   }
 
   deleteList(taskId: any) {
-    console.log('deleting task:::', taskId);
+    // console.log('deleting task:::', taskId);
     return this.http.delete(`${this.rootURL}/task/${taskId}`);
   }
 }
