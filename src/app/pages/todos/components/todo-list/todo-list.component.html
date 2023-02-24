@@ -1,0 +1,11 @@
+<section id="main" class="main" *ngIf="todos as todos">
+  <div class="toogle-view" *ngIf="todos.length > 0"></div>
+  <ul id="todo-list" class="todo-list">
+    <app-todo-list-item
+      *ngFor="let todo of todos; trackBy: todosTrackByFn"
+      [todo]="todo"
+      (edit)="edit.emit($event)"
+      (delete)="delete.emit($event)"
+    ></app-todo-list-item>
+  </ul>
+</section>
