@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -12,14 +13,15 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private _jwt: JwtHelperService,
-    private router: Router
+    private router: Router,
+    private cookie: CookieService
   ) {}
 
   signUp(email: string, password: string): Observable<any> {
     const headers = new HttpHeaders({'Content-Type' : 'application/json'});
     const options = {headers};
     const url = `${this.BASE_URL}/auth/signup`;
-    return this.http.post(url,  {email, password}, options);
+    return this.http.post(url, {email, password}, options);
   }
 
   logIn(email: string, password: string): Observable<any> {
@@ -30,7 +32,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    const token: string = localStorage.getItem('token') || 'null'
+    const token: string = this.cookie.get('token') || 'null'
     if (
       token !== null &&
       token !== undefined &&
@@ -42,6 +44,6 @@ export class AuthService {
   }
 
   getToken(): string {
-    return localStorage.getItem('token') || 'null'
+    return this.cookie.get('cookie') || 'null'
   }
 }

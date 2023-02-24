@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "prettier:check": "prettier --config .prettierrc --check \"src/**/*.{ts,css,html}\"" 
+    "prettier:check": "prettier --config .prettierrc --check \"src/**/*.{ts,css,html}\""
   },
   "private": true,
   "dependencies": {
@@ -29,9 +29,13 @@
     "@ngrx/router-store": "^15.3.0",
     "@ngrx/store": "^15.3.0",
     "@ngrx/store-devtools": "^15.3.0",
+    "lodash": "^4.17.21",
     "ngrx-store-freeze": "^0.2.4",
     "ngrx-store-localstorage": "^15.0.0",
+    "ngx-cookie-service": "^15.0.0",
     "rxjs": "~7.8.0",
+    "todomvc-app-css": "^2.4.2",
+    "todomvc-common": "^1.0.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },
@@ -63,14 +67,14 @@
     "typescript": "~4.9.4"
   },
   "lint-staged": {
-      "src/**/*.{ts,css,html}": [
-          "npm run prettier:check"
-      ]
+    "src/**/*.{ts,css,html}": [
+      "npm run prettier:check"
+    ]
   },
   "husky": {
-      "hooks": {
-          "pre-commit": "lint-staged",
-          "pre-push": "npm run test"      
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
     }
   }
 }

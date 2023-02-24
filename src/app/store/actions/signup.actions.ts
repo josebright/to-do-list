@@ -13,7 +13,7 @@ export const SignUp = createAction(
 
 export const SignUpSuccess = createAction(
   AuthSignUpActionTypes.SIGNUP_SUCCESS,
-  props<{email: string, message: string}>()
+  props<{email: string}>()
 )
 
 export const SignUpFailure = createAction(

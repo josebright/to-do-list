@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SigninComponent } from './pages/auth/signin/signin.component';
 import { SignupComponent } from './pages/auth/signup/signup.component';
-import { TodoComponent } from './pages/todo/todo.component';
+
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import { AuthGuard } from './pages/auth/guard/auth.guard';
+import { AuthGuard } from './lib/guard/auth.guard';
+import { TodoComponent } from './pages/todos/containers';
 
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
   { path: 'todo', component: TodoComponent, 
     canActivate: [AuthGuard] // visit todo only if authenticated
   },
-  { path: '', pathMatch: 'full', redirectTo: '/login' }, // redirect to 'login'
+  { path: '', pathMatch: 'full', redirectTo: 'login' }, // redirect to 'login'
   { path: '**', component: PageNotFoundComponent } // Wildcard route for a 404 page
 ];
 

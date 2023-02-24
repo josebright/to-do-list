@@ -1,17 +1,23 @@
 
 import { User } from './models/user.model';
-import { authReducer} from './reducers/auth.reducers';
+import { authReducer} from './reducers';
+import { todoReducer} from '../pages/todos/store';
+import { ToDoStateInterface } from '../pages/todos/store/entities/todo';
 
-export interface State {
-  // is a user authenticated?
+export interface AuthStateInterface {
   isAuthenticated: boolean;
-  // if authenticated, there should be a user object
   user: User | null;
-  // error message or success message
   message: string | null;
 }
 
 
+
+export interface AppStateInterface {
+  auth: AuthStateInterface;
+  todo: ToDoStateInterface;
+}
+
 export const reducers = {
-  auth: authReducer
+  auth: authReducer,
+  todo: todoReducer
 };
