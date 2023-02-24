@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
+import { TodoListItemComponent } from './pages/todos/components/todo-list-item/todo-list-item.component';
+import { TodoListComponent } from './pages/todos/components/todo-list/todo-list.component';
+import { NewTodoComponent } from './pages/todos/components/new-todo/new-todo.component';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { 
-  AuthEffects, 
-  // TodoEffects 
-} from './store/effects';
-import { authReducer } from './store/reducers';
+import { CookieService } from 'ngx-cookie-service';
 
+import { AuthEffects } from './store/effects';
+import { authReducer } from './store/reducers';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './pages/navbar/navbar.component';
-import { TodoComponent } from './pages/todo/todo.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
 import { SignupComponent } from './pages/auth/signup/signup.component';
 import { SigninComponent } from './pages/auth/signin/signin.component';
@@ -32,14 +32,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ngrx related imports
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { JwtModule } from '@auth0/angular-jwt';
+import { TodoComponent } from './pages/todos/containers';
+import { todoReducer, TodoEffects } from './pages/todos/store';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     TodoComponent,
+    NewTodoComponent,
+    TodoListComponent,
+    TodoListItemComponent,
     SignupComponent,
     SigninComponent,
     AdminComponent,
@@ -61,16 +67,23 @@ import { JwtModule } from '@auth0/angular-jwt';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({auth: authReducer}),
+    StoreModule.forRoot({auth: authReducer, todo: todoReducer}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: !isDevMode(), // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+      trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
+      traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
+    }),
     EffectsModule.forRoot([
       AuthEffects, 
-      // TodoEffects
+      TodoEffects
     ]),
     JwtModule.forRoot({
       config: {},
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

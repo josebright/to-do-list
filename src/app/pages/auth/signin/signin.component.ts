@@ -1,11 +1,14 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store'
+import { select, Store } from '@ngrx/store'
 
 import { LogIn } from 'src/app/store/actions';
-import { State } from 'src/app/store/app.states';
+import { AppStateInterface } from 'src/app/store/app.states';
 import { Credential } from 'src/app/store/models';
+import { messageSelector } from 'src/app/store/selectors'
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -14,18 +17,20 @@ import { Credential } from 'src/app/store/models';
 
 export class SigninComponent implements OnInit {
   errorMessage$: Observable<string | null>;
-  user: Credential = new Credential()
+  user: Credential = new Credential();
+
   constructor(
-    private store: Store<State>,
-    private router: Router
+    private store: Store<AppStateInterface>,
+    private router: Router,
+    private cookie: CookieService
   ) {
-    this.errorMessage$ = this.store.select('message')
+    this.errorMessage$ = this.store.pipe(select(messageSelector));
   }
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
+    const token = this.cookie.get('token');
+    // console.log(token)
     if (token) this.router.navigateByUrl('todo');
-    this.errorMessage$ = this.store.select((store) => store.message);
   }
 
   onSubmit(): void {
@@ -34,6 +39,5 @@ export class SigninComponent implements OnInit {
       password: this.user.password!
     };
     this.store.dispatch(LogIn(payload));
-    console.log(this.errorMessage$)
   }
 }

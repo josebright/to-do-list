@@ -4,7 +4,8 @@
     </div>
     <span class="navbar-spacer"></span>
 
-    <div *ngIf="!isAuthenticated$; then doSomething; else doSomethingElse;"></div>
+    <div *ngIf="isAuthenticated$ | async as isAuthenticated; then doSomething; else doSomethingElse;">
+    </div>
         <ng-template #doSomething>
             <div class="example-button-row">
                 <a mat-raised-button class="cursor-pointer" (click)="logOut()">Logout</a>
@@ -18,4 +19,6 @@
                     <a mat-raised-button routerLink="/signup">Signup</a>
             </div>
         </ng-template>
+    
+
 </mat-toolbar>

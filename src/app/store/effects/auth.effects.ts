@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -14,7 +15,8 @@ export class AuthEffects {
     constructor(
         private actions$: Actions,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private cookie: CookieService
     ) {}
 
     Login$ = createEffect(() => 
@@ -24,9 +26,11 @@ export class AuthEffects {
                 this.authService
                 .logIn(action.email, action.password)
                 .pipe(
-                    map((user: User) => authActions.LogInSuccess({email: action.email, token: user.token!, message: user.message!})),   
-                    catchError(error => of(authActions.LogInFailure({ error: error.error.message })))
-                        
+                    map((user: User) => 
+                        authActions.LogInSuccess({email: user.email!, token: user.token!, id: user.id!})),   
+                    catchError(({error}) => {
+                        return of(authActions.LogInFailure({ error: error.message }))
+                    })
                 )
             )
         )
@@ -36,7 +40,8 @@ export class AuthEffects {
         this.actions$.pipe(
             ofType(authActions.LogInSuccess),
             tap(user => {
-                localStorage.setItem('token', user.token);
+                this.cookie.set('token', user.token);
+                // localStorage.setItem('token', user.token);
                 this.router.navigateByUrl('todo');
             })
         ),
@@ -58,21 +63,21 @@ export class AuthEffects {
                 .signUp(action.email, action.password)
                 .pipe(
                     map((user: User) => 
-                        authActions.SignUpSuccess({email: action.email, message: user.message!})),
-                    catchError(error => 
-                        of(authActions.SignUpFailure({ error: error.error.message })))
+                        authActions.SignUpSuccess({email: user.email!})),
+                    catchError(({error}) => {
+                        return of(authActions.SignUpFailure({ error: error.message }))
+                    })
                 )
             )
         ),
-        { dispatch: false }
     );
 
     SignUpSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.SignUpSuccess),
-            tap(() => {
-                this.router.navigateByUrl('login');
-            })
+            tap(() => 
+                this.router.navigateByUrl('login')
+            )
         ),
         { dispatch: false }
     );
@@ -88,7 +93,8 @@ export class AuthEffects {
         this.actions$.pipe(
             ofType(authActions.LogOut),
             tap(() => {
-                localStorage.removeItem('token');
+                this.cookie.delete('token')
+                // localStorage.removeItem('token');
                 this.router.navigateByUrl('login');
             })
         ),

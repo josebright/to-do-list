@@ -13,7 +13,7 @@ export const LogIn = createAction(
 
 export const LogInSuccess = createAction(
   AuthLogInActionTypes.LOGIN_SUCCESS,
-  props<{email: string, token: string, message: string}>()
+  props<{ id: string, email: string, token: string}>()
 )
 
 export const LogInFailure = createAction(
