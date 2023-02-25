@@ -1,13 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+    height: 100%;
+    /* min-width: 100%; */
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 /* tailwind css  */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import '~todomvc-common/base.css';
-@import '~todomvc-app-css/index.css';
-
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* @import '~todomvc-common/base.css';
+@import '~todomvc-app-css/index.css'; */

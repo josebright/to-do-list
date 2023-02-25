@@ -21,7 +21,7 @@ export class TodoEffects {
           map(data => 
             todoActions.getUserTodoListSuccess({data})),
           catchError(error => 
-            of(todoActions.getUserTodoListFailure({error: error.error.message}))))
+            of(todoActions.getUserTodoListFailure(error.error.message))))
       )
     )
   );
@@ -35,7 +35,7 @@ export class TodoEffects {
             todoActions.getAllTodoListSuccess({data})
           ),
           catchError(error => 
-            of(todoActions.getAllTodoListFailure({error: error.error.message}))))
+            of(todoActions.getAllTodoListFailure(error.error.message))))
       )
     )
   );

@@ -1,55 +1,94 @@
-import { todosSelector } from '../../store/selectors';
-import { CreateTodo } from './../../models/todo.model';
-
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Todo } from '../../models';
-import * as todoActions from '../../store/actions';
 import { AppStateInterface } from 'src/app/store/app.states';
+import { select, Store } from '@ngrx/store';
+import {HttpClient} from '@angular/common/http';
+import {Component, ViewChild, AfterViewInit} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, SortDirection} from '@angular/material/sort';
+import {merge, Observable, of as observableOf} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { Todo } from '../../models';
+import { todosSelector } from '../../store';
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
+  styleUrls: ['./todo.component.css']
 })
-export class TodoComponent implements OnInit {
-  // hasTodos$ = this.store.select(fromTodos.selectHasTodos);
-  // hasCompletedTodos$ = this.store.select(fromTodos.selectHasCompletedTodos);
-  // undoneTodosCount$ = this.store.select(fromTodos.selectUndoneTodosCount);
-  // currentFilter$ = this.store.select(fromTodos.selectFilter);
-  // filteredTodos$ = this.store.select(fromTodos.selectFilteredTodos);
-  // loading$ = this.store.select(fromTodos.selectLoading);
+export class TodoComponent implements AfterViewInit {
+  displayedColumns: string[] = ['id', 'created', 'list', 'status'];
+  exampleDatabase!: ExampleHttpDatabase | null;
+  data: ListItem[] = [];
 
-  todos$ = this.store.select(todosSelector)
-  constructor(private store: Store<AppStateInterface>) {}
+  todos$: Observable<Todo[]>
+  resultsLength = 0;
 
-  ngOnInit(): void {
-    this.store.dispatch(todoActions.getUserTodoList());
-  }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  onAddTodo(text: string): void {
-    const data: CreateTodo = {
-      item: text,
+  constructor(private _httpClient: HttpClient,
+    private store: Store<AppStateInterface>) {
+      this.todos$ = this.store.pipe(select(todosSelector))
     }
-    this.store.dispatch(todoActions.createUserTodoItem({data}));
+
+  ngAfterViewInit() {
+    this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
+
+    // If the user changes the sort order, reset back to the first page.
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          // this.isLoadingResults = true;
+          return this.exampleDatabase!.getRepoIssues(
+            this.sort.active,
+            this.sort.direction,
+            this.paginator.pageIndex,
+          ).pipe(catchError(() => observableOf(null)));
+        }),
+        map(data => {
+          // Flip flag to show that loading has finished.
+          // this.isLoadingResults = false;
+          // this.isRateLimitReached = data === null;
+
+          if (data === null) {
+            return [];
+          }
+
+          // Only refresh the result length if there is new data. In case of rate
+          // limit errors, we do not want to reset the paginator to zero, as that
+          // would prevent users from re-triggering requests.
+          this.resultsLength = data.total_count;
+          return data.items;
+        }),
+      )
+      .subscribe(data => (this.data = data));
   }
+}
 
-  onEditTodo(todo: Todo): void {
-    this.store.dispatch(todoActions.editUserTodoItem({ data: todo }));
+export interface GithubApi {
+  items: ListItem[];
+  total_count: number;
+}
+
+export interface ListItem {
+  created_at: string;
+  number: string;
+  state: string;
+  title: string;
+}
+
+/** An example database that the data source uses to retrieve data for the table. */
+export class ExampleHttpDatabase {
+  constructor(private _httpClient: HttpClient) {}
+
+  getRepoIssues(sort: string, order: SortDirection, page: number): Observable<GithubApi> {
+    const href = 'https://api.github.com/search/issues';
+    const requestUrl = `${href}?q=repo:angular/components&sort=${sort}&order=${order}&page=${
+      page + 1
+    }`;
+
+    return this._httpClient.get<GithubApi>(requestUrl);
   }
-
-  // onUpdate(event: { id: number; text: string }): void {
-  //   this.store.dispatch(fromTodos.updateAction(event));
-  // }
-
-  onDeleteTodo(id: string): void {
-    this.store.dispatch(todoActions.deleteUserTodoItem({ id }));
-  }
-
-  // onFilter(filter: TodoFilter): void {
-  //   this.store.dispatch(fromTodos.setFilterAction({ filter }));
-  // }
-
-  // onClearCompleted(): void {
-  //   this.store.dispatch(fromTodos.clearCompletedAction());
-  // }
 }
