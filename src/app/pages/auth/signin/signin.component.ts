@@ -29,7 +29,6 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     const token = this.cookie.get('token');
-    // console.log(token)
     if (token) this.router.navigateByUrl('todo');
   }
 
