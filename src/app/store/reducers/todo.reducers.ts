@@ -1,6 +1,6 @@
 import {  createReducer, on } from '@ngrx/store';
-import * as todoActions from './actions';
-import { ToDoStateInterface } from './entities/todo';
+import * as todoActions from '../actions/todo.actions';
+import { ToDoStateInterface } from '../app.states';
 
 
 const initialState: ToDoStateInterface = {

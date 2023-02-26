@@ -1,8 +1,7 @@
 
 import { User } from './models/user.model';
-import { authReducer} from './reducers';
-import { todoReducer} from '../pages/todos/store';
-import { ToDoStateInterface } from '../pages/todos/store/entities/todo';
+import { authReducer, todoReducer} from './reducers';
+import { Todo } from './models/todo.model';
 
 export interface AuthStateInterface {
   isAuthenticated: boolean;
@@ -10,7 +9,11 @@ export interface AuthStateInterface {
   message: string | null;
 }
 
-
+export interface ToDoStateInterface {
+  todos: Todo[] | [];
+  error: string | null;
+  selectTodo: Todo | null;
+}
 
 export interface AppStateInterface {
   auth: AuthStateInterface;

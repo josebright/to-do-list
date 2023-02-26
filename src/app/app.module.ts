@@ -1,12 +1,9 @@
-import { TodoListItemComponent } from './pages/todos/components/todo-list-item/todo-list-item.component';
-import { TodoListComponent } from './pages/todos/components/todo-list/todo-list.component';
-import { NewTodoComponent } from './pages/todos/components/new-todo/new-todo.component';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 
-import { AuthEffects } from './store/effects';
-import { authReducer } from './store/reducers';
+import { AuthEffects, TodoEffects } from './store/effects';
+import { authReducer, todoReducer } from './store/reducers';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -35,17 +32,13 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { JwtModule } from '@auth0/angular-jwt';
-import { TodoComponent } from './pages/todos/containers';
-import { todoReducer, TodoEffects } from './pages/todos/store';
+import { TodoComponent } from './pages/todos/todo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     TodoComponent,
-    NewTodoComponent,
-    TodoListComponent,
-    TodoListItemComponent,
     SignupComponent,
     SigninComponent,
     AdminComponent,

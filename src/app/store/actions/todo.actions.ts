@@ -1,6 +1,5 @@
-import { CreateTodo } from './../models/todo.model';
 import { createAction, props } from '@ngrx/store';
-import { Todo } from '../models';
+import { CreateTodo, Todo } from '../models/todo.model';
 
 export enum ToDoActionTypes {
     GET_USER_TODOS = '[Todo] Get User Todos',

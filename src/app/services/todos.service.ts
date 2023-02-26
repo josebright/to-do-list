@@ -1,9 +1,8 @@
-import { CreateTodo } from './../models/todo.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Todo } from '../models';
+import { CreateTodo, Todo } from '../store/models/todo.model';
 
 @Injectable({
   providedIn: 'root'
