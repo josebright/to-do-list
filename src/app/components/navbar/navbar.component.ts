@@ -11,6 +11,7 @@ import { isAuthenticatedSelector } from 'src/app/store/selectors'
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  // check if user is authenticated or not
   isAuthenticated$: Observable<boolean>
 
   constructor(

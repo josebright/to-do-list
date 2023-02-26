@@ -12,6 +12,7 @@ export class TodoEffects {
     private todoService: TodoService
   ) {}
 
+  // make a request to todo service and get a user todo list otherwise return error
   getUserTodoList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.getUserTodoList),
@@ -25,6 +26,7 @@ export class TodoEffects {
     )
   );
 
+  // admin make a request to todo service and get all users todo list otherwise return error
   getAllTodoList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.getAllTodoList),
@@ -39,6 +41,7 @@ export class TodoEffects {
     )
   );
 
+  // make a request to todo service and authorize user to create a todo item otherwise return error
   createUserTodoItem$ = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.createUserTodoItem),
@@ -53,6 +56,7 @@ export class TodoEffects {
     )
   );
 
+   // make a request to todo service and authorize user to edit a todo item otherwise return error
   editUserTodoItem$ = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.editUserTodoItem),
@@ -66,11 +70,12 @@ export class TodoEffects {
     )
   );
 
+   // make a request to todo service and authorize user to delete a todo item using the provided id otherwise return error
   deleteUserTodoItem$ = createEffect(() =>
     this.actions$.pipe(
       ofType(todoActions.deleteUserTodoItem),
       exhaustMap(action => this.todoService.deleteUserTodoItem(action.id).pipe(
-          map((_) => todoActions.deleteUserTodoItemSuccess({id:action.id})),
+          map(() => todoActions.deleteUserTodoItemSuccess({id:action.id})),
           catchError((error) => of(todoActions.deleteUserTodoItemFailure({error}))))
       )
     )
