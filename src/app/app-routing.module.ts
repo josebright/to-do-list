@@ -6,7 +6,7 @@ import { SignupComponent } from './pages/auth/signup/signup.component';
 
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { AuthGuard } from './lib/guard/auth.guard';
-import { TodoComponent } from './pages/todos/containers';
+import { TodoComponent } from './pages/todos/todo.component';
 
 
 const routes: Routes = [
