@@ -6,8 +6,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, SortDirection} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import { Todo } from '../../models';
-import { todosSelector } from '../../store';
+import { Todo } from 'src/app/store/models/todo.model';
+import { todosSelector } from 'src/app/store/selectors';
 
 @Component({
   selector: 'app-todo',
