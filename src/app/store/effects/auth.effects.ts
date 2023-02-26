@@ -19,23 +19,25 @@ export class AuthEffects {
         private cookie: CookieService
     ) {}
 
+    // Login using user credentials, and validate if successful or not
     Login$ = createEffect(() => 
         this.actions$.pipe(
-            ofType(authActions.LogIn),
+            ofType(authActions.LogIn), 
             exhaustMap(action =>
-                this.authService
-                .logIn(action.email, action.password)
+                this.authService // make the request
+                .logIn(action.email, action.password) // pass user login information
                 .pipe(
                     map((user: User) => 
-                        authActions.LogInSuccess({email: user.email!, token: user.token!, id: user.id!})),   
+                        authActions.LogInSuccess({email: user.email!, token: user.token!, id: user.id!})),   // pass the information gotten from the request 
                     catchError(({error}) => {
-                        return of(authActions.LogInFailure({ error: error.message }))
+                        return of(authActions.LogInFailure({ error: error.message })) // return errors
                     })
                 )
             )
         )
     );
 
+    // If login is successful, store token in cookies and navigate to todo page
     LogInSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.LogInSuccess),
@@ -48,6 +50,7 @@ export class AuthEffects {
         { dispatch: false }
     );
 
+    // If login is failed, return the error
     LogInFailure$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.LogInFailure)
@@ -55,23 +58,25 @@ export class AuthEffects {
         { dispatch: false }
     );
 
+    // Signup using user credentials, and validate if successful or not
     SignUp$ = createEffect(() => 
         this.actions$.pipe(
             ofType(authActions.SignUp),
             exhaustMap(action =>
-                this.authService
-                .signUp(action.email, action.password)
+                this.authService // make the request
+                .signUp(action.email, action.password) // pass user signup information
                 .pipe(
                     map((user: User) => 
-                        authActions.SignUpSuccess({email: user.email!})),
+                        authActions.SignUpSuccess({email: user.email!})), // pass the information gotten from the request
                     catchError(({error}) => {
-                        return of(authActions.SignUpFailure({ error: error.message }))
+                        return of(authActions.SignUpFailure({ error: error.message })) // return errors
                     })
                 )
             )
         ),
     );
 
+    // If signup is successful, navigate to login page
     SignUpSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.SignUpSuccess),
@@ -82,6 +87,7 @@ export class AuthEffects {
         { dispatch: false }
     );
 
+    // If signup is failed, return the error
     SignUpFailure$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.SignUpFailure)
@@ -89,6 +95,7 @@ export class AuthEffects {
         { dispatch: false }
     );
 
+    //  clear token from cookie to log a user out
     LogOut$ = createEffect(() =>
         this.actions$.pipe(
             ofType(authActions.LogOut),

@@ -17,22 +17,25 @@ export class AuthService {
     private cookie: CookieService
   ) {}
 
+  // sigup service
   signUp(email: string, password: string): Observable<any> {
-    const headers = new HttpHeaders({'Content-Type' : 'application/json'});
+    const headers = new HttpHeaders({'Content-Type' : 'application/json'}); //describe a header option
     const options = {headers};
     const url = `${this.BASE_URL}/auth/signup`;
     return this.http.post(url, {email, password}, options);
   }
 
+  // login service
   logIn(email: string, password: string): Observable<any> {
-    const headers = new HttpHeaders({'Content-Type' : 'application/json'});
+    const headers = new HttpHeaders({'Content-Type' : 'application/json'}); //describe a header option
     const options = {headers};
     const url = `${this.BASE_URL}/auth/signin`;
     return this.http.post(url, {email, password}, options);
   }
 
+  // confirm user authentication using token
   isLoggedIn(): boolean {
-    const token: string = this.cookie.get('token') || 'null'
+    const token: string = this.cookie.get('token')
     if (
       token !== null &&
       token !== undefined &&
@@ -43,7 +46,8 @@ export class AuthService {
     return false;
   }
 
+  //  get user token
   getToken(): string {
-    return this.cookie.get('cookie') || 'null'
+    return this.cookie.get('cookie')
   }
 }

@@ -16,8 +16,8 @@ import { messageSelector } from 'src/app/store/selectors'
 })
 
 export class SigninComponent implements OnInit {
-  errorMessage$: Observable<string | null>;
-  user: Credential = new Credential();
+  errorMessage$: Observable<string | null>; //store error message
+  user: Credential = new Credential(); // store logged user email and password
 
   constructor(
     private store: Store<AppStateInterface>,

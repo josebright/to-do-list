@@ -15,8 +15,8 @@ import { messageSelector } from 'src/app/store/selectors';
 })
 
 export class SignupComponent {
-  user: Credential = new Credential();
-  errorMessage$: Observable<string | null>;
+  user: Credential = new Credential(); // store logged user email and password
+  errorMessage$: Observable<string | null>; // store error message
 
   constructor(
     private store: Store<AppStateInterface>,
